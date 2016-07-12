@@ -1,7 +1,7 @@
 /*!
  * angular-directive-boilerplate
  * 
- * Version: 0.0.13 - 2016-06-30T12:57:02.735Z
+ * Version: 0.0.14 - 2016-07-12T16:05:52.226Z
  * License: MIT
  */
 
@@ -636,13 +636,25 @@ angular.module('angularPixelPaint', []).directive('pixelPaint', ['$document', '$
             var imageData = ctx.getImageData(0, 0, size.width, parseInt(fontSize) * 1.5);
 
 
+            var r = 0, g = 0, b = 0;
+            if(layer.color.indexOf('rgba') === 0){
+                var colorString = layer.color;
+                var colorsOnly = colorString.substring(colorString.indexOf('(') + 1, colorString.lastIndexOf(')')).split(/,\s*/);
+                
+                r = colorsOnly[0];
+                g = colorsOnly[1];
+                b = colorsOnly[2];
+            }
 
-
-            // Fixing alpha
             var ptr;
             for (var i = 0; i < imageData.height; i++) {
                 for (var j = 0; j < imageData.width; j++) {
                     ptr = ((i * imageData.width) + j) * 4;
+                    
+                    imageData.data[ptr] = imageData.data[ptr + 3] > 50 ? r : 0;
+                    imageData.data[ptr + 1] = imageData.data[ptr + 3] > 50 ? g : 0;
+                    imageData.data[ptr + 2] = imageData.data[ptr + 3] > 50 ? b : 0;
+                    
                     imageData.data[ptr + 3] = imageData.data[ptr + 3] > 50 ? 255 : 0;
                 }
             }
