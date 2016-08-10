@@ -53,7 +53,7 @@ app.controller('DemoController', ['$scope', '$log', '$timeout', '$document', fun
 
   $scope.generateOutputImage = function(){
     $scope.shouldGenerateOutputImage = true;
-    $timeout(() => {
+    $timeout(function() {
       $scope.outputImageUrl = imageDataToURL($scope.outputImage, $document);
     });
   };

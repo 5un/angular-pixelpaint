@@ -198,7 +198,13 @@ angular.module('angularPixelPaint', []).directive('pixelPaint', ['$document', '$
 
             //angular.element(el[0].querySelector('.btn-remove')).remove();
 
-            el[0].querySelectorAll('.btn-remove').forEach(function(e) {
+            var forEach = function (array, callback, scope) {
+              for (var i = 0; i < array.length; i++) {
+                callback.call(scope, i, array[i]); // passes back stuff we need
+              }
+            };
+
+            forEach(el[0].querySelectorAll('.btn-remove'), function (index, e) {
                 e.parentNode.removeChild(e);
             });
 
